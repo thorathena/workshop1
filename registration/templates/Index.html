@@ -19,6 +19,12 @@
     </script>
 
     <script src="{%  static 'css/bootstrap.min.css' %}" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <style>
+        .bg-1 {
+            background-color: #A0522D; /* Green */
+            color: #ffffff;
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -31,7 +37,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Brand</a>
+            <a class="navbar-brand" href="#">chocolatty</a>
         </div>
 
 
@@ -60,60 +66,113 @@
         <button type="submit" class="btn btn-default">Submit</button>
     </form>
     <ul class="nav navbar-nav navbar-right">
+
         <li><a href="#">Link</a></li>
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Join<span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a href=" {% url 'register_user' %}">Sign Up</a></li>
-                <li><a href="{% url 'login' %}">Sign In</a></li>
+        {% if user.is_anonymous %}
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Join<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href=" {% url 'register_user' %}">Sign Up</a></li>
+                    <li><a href="{% url 'login' %}">Sign In</a></li>
 
 
-            </ul>
-        </li>
-    </ul>
-</div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                </ul>
+            </li>
+        {% else %}
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <ul class="nav navbar-nav navbar-right" id="home_nav">
-                {% if user.is_anonymous %}
-                    <li><button type="button" data-toggle="modal" data-target="#login-modal" class="btn-new btn-ghost btn-nav" >Login </button></li>
-                    <li><a href="{% url 'register_user' %}" class="btn-new btn-nav btn-white" id="signup_btn" style="padding: 5px; display:table;">Sign Up</a></li>
-                {% else %}
-                    <li>
-                        <div class="btn-group">
-                            <a class="btn-new btn-nav btn-white" data-toggle="dropdown"><i class="fa fa-user fa-fw"></i>
-                                {% if request.user.user_first_name %}
-                                    {{ request.user.user_first_name }}
-                                {% elif request.user.username %}
-                                    {{ request.user.username }}
-                                {% else %}
-                                    {{ request.user.email }}
-                                {% endif %}
-                                <span class="fa fa-caret-down"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="{% if request.resolver_match.url_name == 'user_profile' %}active{% endif %}">
-                                    <a href="{% url 'home' %}">
-                                        <i class='fa fa-user fa-fw' style='color:#F14700'></i> My Profile </a>
-                                </li>
+                    {% if request.user.user_first_name %}
+                        {{ request.user.user_first_name }}
+                    {% elif request.user.username %}
+                        {{ request.user.username }}
+                    {% else %}
+                        {{ request.user.email }}
+                    {% endif %}
 
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="{% url 'logout' %}">
-                                        <i class='fa fa-power-off fa-fw' style='color:red'></i> Logout
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                <span class="caret"></span></a></a>
+
+                <ul class="dropdown-menu">
+                    <li class="{% if request.resolver_match.url_name == 'user_profile' %}active{% endif %}">
+                        <a href="{% url 'home' %}">
+                            <i class='fa fa-user fa-fw' style='color:#F14700'></i> My Profile </a>
                     </li>
-                {% endif %}
-            </ul>
-        </div><!-- /.navbar-collapse -->
+
+                    <li class="divider"></li>
+                    <li>
+                        <a href="{% url 'logout' %}">
+                            <i class='fa fa-power-off fa-fw' style='color:red'></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            </div>
+
+            </li>
+        {% endif %}
+
+        </ul>
+    </div>
+
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+
+    <!-- /.navbar-collapse -->
     </div><!-- /.container-fluid --><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
 
-Hello World
+
+<div class="bg-1">
+    <div class="container center">
+        <img src="http://i.huffpost.com/gen/1131723/images/o-MOTHERS-DAY-CHOCOLATE-facebook.jpg"  width="350" height="250">
+        <img src=http://stogiepress.com/blog/wp-content/uploads/2014/12/Chocolate-truffles.jpg  width="350" height="250">
+        <img src=http://www.appsforpcplanet.com/wp-content/uploads/2016/01/Chocolate-chocolate-35818061-1980-1287.jpg  width="350" height="250">
+
+    </div>
+</div>
+{% if request.user.is_anonymous %}
+
+{% else %}
+
+    <div class="col-md-offset-5" style="padding-top: 10%;">
+        <p><a href="{% url 'add_chocolate' %}"><button class="btn btn-primary">Add a chocolate</button></a></p>
+    </div>
+
+
+<div class="col-md-8 col-md-offset-2 well">
+<table class="table table-hover table-bordered table-responsive">
+    <thead>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Manufacturer
+        </th>
+        <th>
+            Price
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in object_list %}
+        <tr>
+            <td> {{ item.name }} </td>
+            <td> {{ item.description }}</td>
+            <td> {{ item.manufacturer }}</td>
+            <td> {{ item.price }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+
+
+</div>
+{% endif %}
 </body>
 </html>
