@@ -1,128 +1,8 @@
+
+{%  extends 'base.html' %}
 {% load staticfiles %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My workshop website</title>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="{%  static 'css/bootstrap.min.css' %}" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="{%  static 'css/bootstrap.min.css' %}" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script type="text/javascript" src="{% static 'js/jquery-2.2.4.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
-    <script type="text/javascript" >
-        $(document).ready(function () {
-            $('.dropdown-toggle').dropdown();
-        });
-    </script>
-
-    <script src="{%  static 'css/bootstrap.min.css' %}" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    <style>
-        .bg-1 {
-            background-color: #A0522D; /* Green */
-            color: #ffffff;
-        }
-    </style>
-</head>
-<body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">chocolatty</a>
-        </div>
-
-
-
-<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-    <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#">Separated link</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#">One more separated link</a></li>
-            </ul>
-        </li>
-    </ul>
-    <form class="navbar-form navbar-left" role="search">
-        <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-    </form>
-    <ul class="nav navbar-nav navbar-right">
-
-        <li><a href="#">Link</a></li>
-        {% if user.is_anonymous %}
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Join<span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href=" {% url 'register_user' %}">Sign Up</a></li>
-                    <li><a href="{% url 'login' %}">Sign In</a></li>
-
-
-                </ul>
-            </li>
-        {% else %}
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-
-                    {% if request.user.user_first_name %}
-                        {{ request.user.user_first_name }}
-                    {% elif request.user.username %}
-                        {{ request.user.username }}
-                    {% else %}
-                        {{ request.user.email }}
-                    {% endif %}
-
-                <span class="caret"></span></a></a>
-
-                <ul class="dropdown-menu">
-                    <li class="{% if request.resolver_match.url_name == 'user_profile' %}active{% endif %}">
-                        <a href="{% url 'home' %}">
-                            <i class='fa fa-user fa-fw' style='color:#F14700'></i> My Profile </a>
-                    </li>
-
-                    <li class="divider"></li>
-                    <li>
-                        <a href="{% url 'logout' %}">
-                            <i class='fa fa-power-off fa-fw' style='color:red'></i> Logout
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            </div>
-
-            </li>
-        {% endif %}
-
-        </ul>
-    </div>
-
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-
-    <!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid --><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
-
-
+{% block body %}
 <div class="bg-1">
     <div class="container center">
         <img src="http://i.huffpost.com/gen/1131723/images/o-MOTHERS-DAY-CHOCOLATE-facebook.jpg"  width="350" height="250">
@@ -138,6 +18,7 @@
     <div class="col-md-offset-5" style="padding-top: 10%;">
         <p><a href="{% url 'add_chocolate' %}"><button class="btn btn-primary">Add a chocolate</button></a></p>
     </div>
+
 
 
 <div class="col-md-8 col-md-offset-2 well">
@@ -156,6 +37,9 @@
         <th>
             Price
         </th>
+           <th>
+            More
+        </th>
     </tr>
     </thead>
     <tbody>
@@ -165,6 +49,7 @@
             <td> {{ item.description }}</td>
             <td> {{ item.manufacturer }}</td>
             <td> {{ item.price }}</td>
+            <td> <a href="{% url 'chocolate_info' item.id %}">Info</a> </td>
         </tr>
     {% endfor %}
     </tbody>
@@ -172,7 +57,11 @@
 </div>
 
 
+
+
+</div>
+
+
 </div>
 {% endif %}
-</body>
-</html>
+{% endblock %}
